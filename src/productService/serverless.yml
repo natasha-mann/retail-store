@@ -1,0 +1,18 @@
+service: retail-store-product-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+
+functions:
+  ProductServiceApi:
+    handler: handler.handle
+    events: 
+      - http
+          path: /
+          method: GET
+
+plugins:
+  - serverless-esbuild
