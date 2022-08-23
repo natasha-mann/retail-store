@@ -9,8 +9,8 @@ provider:
 functions:
   ProductServiceApi:
     handler: handler.handle
-    events: 
-      - http
+    events:
+      - http:
           path: /
           method: GET
 
