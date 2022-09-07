@@ -11,7 +11,7 @@ functions:
     handler: handler.handle
     events:
       - http:
-          path: /
+          path: /{sku}
           method: GET
 
 plugins:
