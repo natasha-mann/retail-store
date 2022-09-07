@@ -1,10 +1,19 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
+export interface Product {
+  sku: string;
+  name: string;
+}
+
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
+  const product: Product = {
+    sku: "abc",
+    name: "hat",
+  };
   return {
     statusCode: 200,
-    body: "Hello World",
+    body: JSON.stringify(product),
   };
 };
