@@ -5,13 +5,19 @@ export interface Product {
   name: string;
 }
 
+const products: Product[] = [
+  { sku: "abc", name: "hat" },
+  { sku: "def", name: "shoe" },
+  { sku: "ghi", name: "sock" },
+];
+
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const product: Product = {
-    sku: "abc",
-    name: "hat",
-  };
+  const sku = event.pathParameters!.sku;
+
+  const product = products.find((p) => p.sku === sku);
+
   return {
     statusCode: 200,
     body: JSON.stringify(product),
