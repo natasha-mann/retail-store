@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
-import { handle, Product } from "../handler";
+import { handle } from "../handler";
+import { Product } from "../models/product";
 
 describe("Get product", () => {
   const request = {
