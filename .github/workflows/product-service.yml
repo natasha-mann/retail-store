@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Service
         run: |
-          cd src/product-service            
+          cd src/productService            
           npm ci           
           npm run build --if-present
       - name: Deploy Service
