@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "lib": ["es6"],
+
+    /* Modules */
+    "module": "commonjs" /* Specify what module code is generated. */,
+    "rootDir": "/" /* Specify the root folder within your source files. */,
+
+    "resolveJsonModule": true,
+
+    "allowJs": true,
+    "outDir": "build",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noImplicitAny": true
+  }
+}

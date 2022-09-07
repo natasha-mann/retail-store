@@ -16,18 +16,3 @@ functions:
 
 plugins:
   - serverless-esbuild
-
-resources:
-Resources:
-  DBCluster:
-    Type: "AWS::DocDB::DBCluster"
-    Properties:
-      DBClusterIdentifier: "RetailStoreCluster"
-
-  DBInstance:
-    Type: "AWS::DocDB::DBInstance"
-    Properties:
-      DBClusterIdentifier: "RetailStoreCluster"
-      DBInstanceIdentifier: "ProductService"
-      DBInstanceClass: "db.t3.medium"
-    DependsOn: DBCluster

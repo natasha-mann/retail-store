@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "esbuild": "^0.15.5",
-    "serverless-esbuild": "^1.32.8"
-  }
-}
