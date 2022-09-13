@@ -1,6 +1,34 @@
 import { APIGatewayProxyEvent } from "aws-lambda";
 import { handle } from "../handler";
-import { Product } from "../models/product";
+import { IProduct } from "../models/product";
+import {
+  describe,
+  expect,
+  it,
+  beforeAll,
+  afterEach,
+  afterAll,
+  beforeEach,
+} from "@jest/globals";
+import { add } from "../data/productRepository";
+const db = require("./testdb");
+
+beforeAll(async () => {
+  console.log("BEFORE");
+  await db.setUp();
+});
+
+beforeEach(async () => {
+  await add();
+});
+
+afterEach(async () => {
+  await db.dropCollections();
+});
+
+afterAll(async () => {
+  await db.dropDatabase();
+});
 
 describe("Get product", () => {
   const request = {
@@ -17,13 +45,13 @@ describe("Get product", () => {
 
   it("should have got the correct product", async () => {
     const response = await handle(request);
-    const product = JSON.parse(response.body) as Product;
+    const product = JSON.parse(response.body) as IProduct;
     expect(product.sku).toEqual("abc");
   });
 
   it("should not return any other products", async () => {
     const response = await handle(request);
-    const product = JSON.parse(response.body) as Product;
+    const product = JSON.parse(response.body) as IProduct;
     expect(product.sku).not.toEqual("bcd");
   });
 });
