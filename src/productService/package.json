@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "serverless offline start",
     "test": "jest"
   },
   "keywords": [],
@@ -20,7 +21,8 @@
     "mongodb": "^4.9.1",
     "mongodb-memory-server": "^8.9.1",
     "mongoose": "^6.6.0",
-    "serverless": "^3.22.0"
+    "serverless": "^3.22.0",
+    "serverless-offline": "^10.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",

@@ -9,9 +9,12 @@ import {
   afterEach,
   afterAll,
   beforeEach,
+  jest,
 } from "@jest/globals";
 import { add } from "../data/productRepository";
 const db = require("./testdb");
+
+jest.mock("../data/connection");
 
 beforeAll(async () => {
   console.log("BEFORE");

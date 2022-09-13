@@ -11,7 +11,6 @@ export const add = async () => {
 };
 
 export const get = async (sku: string): Promise<IProduct> => {
-  // const product = products.find((p) => p.sku === sku);
   const product = await Product.findOne({ where: { sku } });
   if (!product) throw new Error();
 
