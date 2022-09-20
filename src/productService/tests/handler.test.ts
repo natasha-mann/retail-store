@@ -21,9 +21,9 @@ beforeAll(async () => {
   await db.setUp();
 });
 
-// beforeEach(async () => {
-//   await add();
-// });
+beforeEach(async () => {
+  await add();
+});
 
 afterEach(async () => {
   await db.dropCollections();

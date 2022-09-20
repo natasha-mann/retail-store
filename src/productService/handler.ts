@@ -9,9 +9,8 @@ export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log(process.env.MONGODB_URI);
-  await mongoose.connect(MONGODB_URI);
 
-  await add();
+  if (mongoose.connection.readyState === 0) await mongoose.connect(MONGODB_URI);
 
   const sku = event.pathParameters!.sku;
 

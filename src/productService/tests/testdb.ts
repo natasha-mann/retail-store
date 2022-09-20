@@ -7,6 +7,10 @@ module.exports.setUp = async () => {
   mongo = await MongoMemoryServer.create();
   const url = mongo.getUri();
   process.env.MONGODB_URI = url;
+
+  await mongoose.connect(url, {
+    useNewUrlParser: true,
+  });
 };
 
 module.exports.dropDatabase = async () => {
