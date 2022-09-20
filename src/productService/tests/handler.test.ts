@@ -11,10 +11,9 @@ import {
   beforeEach,
   jest,
 } from "@jest/globals";
-import { add } from "../data/productRepository";
-const db = require("./testdb");
+import { seed } from "../data/seeds";
 
-// jest.mock("../data/connection");
+const db = require("./testdb");
 
 beforeAll(async () => {
   console.log("BEFORE");
@@ -22,7 +21,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  await add();
+  await seed();
 });
 
 afterEach(async () => {

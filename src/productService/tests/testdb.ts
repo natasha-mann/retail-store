@@ -8,9 +8,10 @@ module.exports.setUp = async () => {
   const url = mongo.getUri();
   process.env.MONGODB_URI = url;
 
-  await mongoose.connect(url, {
-    useNewUrlParser: true,
-  });
+  if (mongoose.connection.readyState === 0)
+    await mongoose.connect(url, {
+      useNewUrlParser: true,
+    });
 };
 
 module.exports.dropDatabase = async () => {

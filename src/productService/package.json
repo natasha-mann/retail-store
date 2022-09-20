@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "serverless offline start",
-    "test": "jest"
+    "dev": "docker-compose up && serverless offline start && npm run seed",
+    "test": "jest",
+    "seed": "node data/seeds.ts"
   },
   "keywords": [],
   "author": "",
