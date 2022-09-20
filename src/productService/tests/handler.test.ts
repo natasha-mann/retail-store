@@ -14,16 +14,16 @@ import {
 import { add } from "../data/productRepository";
 const db = require("./testdb");
 
-jest.mock("../data/connection");
+// jest.mock("../data/connection");
 
 beforeAll(async () => {
   console.log("BEFORE");
   await db.setUp();
 });
 
-beforeEach(async () => {
-  await add();
-});
+// beforeEach(async () => {
+//   await add();
+// });
 
 afterEach(async () => {
   await db.dropCollections();
