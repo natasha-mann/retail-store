@@ -38180,7 +38180,7 @@ var require_schema2 = __commonJS({
       this._applyDiscriminators = Object.assign(this._applyDiscriminators || {}, { [name]: schema });
       return this;
     };
-    Schema2.prototype.add = function add2(obj, prefix) {
+    Schema2.prototype.add = function add(obj, prefix) {
       if (obj instanceof Schema2 || obj != null && obj.instanceOfSchema) {
         merge(this, obj);
         return this;
@@ -55674,41 +55674,19 @@ var productSchema = new import_mongoose.Schema({
 var Product = (0, import_mongoose.model)("Product", productSchema);
 
 // data/productRepository.ts
-var products = [
-  { sku: "abc", name: "hat" },
-  { sku: "def", name: "shoe" },
-  { sku: "ghi", name: "sock" }
-];
-var add = async () => {
-  await Product.create(products);
-};
 var get = async (sku) => {
-  const product = await Product.findOne({ where: { sku } });
+  const product = await Product.findOne({ sku });
   if (!product)
     throw new Error();
   return product;
 };
 
-// data/connection.ts
-var import_mongoose2 = __toESM(require_mongoose());
-var Database = class {
-  constructor(connectionString) {
-    this.connectionString = connectionString;
-  }
-  async connect() {
-    await import_mongoose2.default.connect(this.connectionString);
-  }
-  async getItem(sku, db) {
-    return Product.findOne({ $where: sku });
-  }
-};
-
 // handler.ts
-var MONGODB_URI = "mongodb://127.0.0.1:27017/";
+var import_mongoose2 = __toESM(require_mongoose());
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/productStore";
 var handle = async (event) => {
-  const database = new Database(MONGODB_URI);
-  await database.connect();
-  await add();
+  if (import_mongoose2.default.connection.readyState === 0)
+    await import_mongoose2.default.connect(MONGODB_URI);
   const sku = event.pathParameters.sku;
   if (!sku) {
     throw new Error();

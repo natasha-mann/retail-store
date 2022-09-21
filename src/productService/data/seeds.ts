@@ -8,10 +8,14 @@ const products: IProduct[] = [
 ];
 
 export const seed = async () => {
-  const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/";
+  const MONGODB_URI =
+    process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/productStore";
+  console.log(MONGODB_URI);
   if (mongoose.connection.readyState === 0) await mongoose.connect(MONGODB_URI);
 
   await Product.create(products);
+
+  await mongoose.connection.close();
 };
 
-seed();
+seed().then(() => console.log("Products Seeded!"));
