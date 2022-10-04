@@ -1,5 +1,9 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import { get } from "./data/productRepository";
+import {
+  MongoRepository,
+  IProductRepository,
+  InMemoryRepository,
+} from "./data/productRepository";
 import mongoose from "mongoose";
 
 const MONGODB_URI =
@@ -16,7 +20,10 @@ export const handle = async (
     throw new Error();
   }
 
-  const product = await get(sku);
+  let repo: IProductRepository;
+
+  repo = new InMemoryRepository();
+  const product = await repo.get(sku);
 
   return {
     statusCode: 200,

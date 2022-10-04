@@ -18886,7 +18886,7 @@ var require_denque = __commonJS({
       i = this._head + i & this._capacityMask;
       return this._list[i];
     };
-    Denque.prototype.get = function get2(i) {
+    Denque.prototype.get = function get(i) {
       return this.peekAt(i);
     };
     Denque.prototype.peek = function peek() {
@@ -32014,7 +32014,7 @@ var require_addAutoId = __commonJS({
 var require_get = __commonJS({
   "node_modules/mongoose/lib/helpers/get.js"(exports, module2) {
     "use strict";
-    module2.exports = function get2(obj, path, def) {
+    module2.exports = function get(obj, path, def) {
       let parts;
       let isPathArray = false;
       if (typeof path === "string") {
@@ -32085,7 +32085,7 @@ var require_decorateDiscriminatorIndexOptions = __commonJS({
 var require_getIndexes = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/getIndexes.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     var helperIsObject = require_isObject();
     var decorateDiscriminatorIndexOptions = require_decorateDiscriminatorIndexOptions();
     module2.exports = function getIndexes(schema) {
@@ -32108,7 +32108,7 @@ var require_getIndexes = __commonJS({
             continue;
           }
           if (path.$isMongooseDocumentArray || path.$isSingleNested) {
-            if (get2(path, "options.excludeIndexes") !== true && get2(path, "schemaOptions.excludeIndexes") !== true && get2(path, "schema.options.excludeIndexes") !== true) {
+            if (get(path, "options.excludeIndexes") !== true && get(path, "schemaOptions.excludeIndexes") !== true && get(path, "schema.options.excludeIndexes") !== true) {
               collectIndexes(path.schema, prefix + key + ".");
             }
             if (path.schema.discriminators != null) {
@@ -32424,13 +32424,13 @@ var require_applyTimestampsToChildren = __commonJS({
 var require_applyTimestampsToUpdate = __commonJS({
   "node_modules/mongoose/lib/helpers/update/applyTimestampsToUpdate.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = applyTimestampsToUpdate;
     function applyTimestampsToUpdate(now, createdAt, updatedAt, currentUpdate, options) {
       const updates = currentUpdate;
       let _updates = updates;
-      const overwrite = get2(options, "overwrite", false);
-      const timestamps = get2(options, "timestamps", true);
+      const overwrite = get(options, "overwrite", false);
+      const timestamps = get(options, "timestamps", true);
       if (!timestamps || updates == null) {
         return currentUpdate;
       }
@@ -32546,7 +32546,7 @@ var require_setupTimestamps = __commonJS({
     "use strict";
     var applyTimestampsToChildren = require_applyTimestampsToChildren();
     var applyTimestampsToUpdate = require_applyTimestampsToUpdate();
-    var get2 = require_get();
+    var get = require_get();
     var handleTimestampOption = require_handleTimestampOption();
     var setDocumentTimestamps = require_setDocumentTimestamps();
     var symbols = require_symbols2();
@@ -32574,7 +32574,7 @@ var require_setupTimestamps = __commonJS({
       }
       schema.add(schemaAdditions);
       schema.pre("save", function(next) {
-        const timestampOption = get2(this, "$__.saveOptions.timestamps");
+        const timestampOption = get(this, "$__.saveOptions.timestamps");
         if (timestampOption === false) {
           return next();
         }
@@ -33915,7 +33915,7 @@ var require_cast2 = __commonJS({
     var Types = require_schema();
     var cast$expr = require_cast_expr();
     var castTextSearch = require_text();
-    var get2 = require_get();
+    var get = require_get();
     var getConstructorName = require_getConstructorName();
     var getSchemaDiscriminatorByValue = require_getSchemaDiscriminatorByValue();
     var isOperator = require_isOperator();
@@ -33986,7 +33986,7 @@ var require_cast2 = __commonJS({
               const _schematype = schema.path(pathFirstHalf);
               const discriminatorKey = _schematype && _schematype.schema && _schematype.schema.options && _schematype.schema.options.discriminatorKey;
               if (_schematype != null && (_schematype.schema && _schematype.schema.discriminators) != null && discriminatorKey != null && pathLastHalf !== discriminatorKey) {
-                const discriminatorVal = get2(obj, pathFirstHalf + "." + discriminatorKey);
+                const discriminatorVal = get(obj, pathFirstHalf + "." + discriminatorKey);
                 if (discriminatorVal != null) {
                   schematype = _schematype.schema.discriminators[discriminatorVal].path(pathLastHalf);
                 }
@@ -36493,7 +36493,7 @@ var require_discriminator = __commonJS({
     "use strict";
     var Mixed = require_mixed();
     var defineKey = require_compile().defineKey;
-    var get2 = require_get();
+    var get = require_get();
     var utils = require_utils6();
     var CUSTOMIZABLE_DISCRIMINATOR_OPTIONS = {
       toJSON: true,
@@ -36511,7 +36511,7 @@ var require_discriminator = __commonJS({
         throw new Error('Discriminator "' + name + '" can only be a discriminator of the root model');
       }
       if (applyPlugins) {
-        const applyPluginsToDiscriminators = get2(
+        const applyPluginsToDiscriminators = get(
           model2.base,
           "options.applyPluginsToDiscriminators",
           false
@@ -37956,7 +37956,7 @@ var require_schema2 = __commonJS({
     var VirtualOptions = require_VirtualOptions();
     var VirtualType = require_virtualtype();
     var addAutoId = require_addAutoId();
-    var get2 = require_get();
+    var get = require_get();
     var getConstructorName = require_getConstructorName();
     var getIndexes = require_getIndexes();
     var idGetter = require_idGetter();
@@ -38031,7 +38031,7 @@ var require_schema2 = __commonJS({
     function aliasFields(schema, paths) {
       paths = paths || Object.keys(schema.paths);
       for (const path of paths) {
-        const options = get2(schema.paths[path], "options");
+        const options = get(schema.paths[path], "options");
         if (options == null) {
           continue;
         }
@@ -38132,7 +38132,7 @@ var require_schema2 = __commonJS({
       }
       for (const path of paths) {
         if (this.nested[path]) {
-          newSchema.add({ [path]: get2(this.tree, path) });
+          newSchema.add({ [path]: get(this.tree, path) });
         } else {
           const schematype = this.path(path);
           if (schematype == null) {
@@ -39426,7 +39426,7 @@ var require_flattenObjectWithDottedPaths = __commonJS({
 var require_getEmbeddedDiscriminatorPath = __commonJS({
   "node_modules/mongoose/lib/helpers/document/getEmbeddedDiscriminatorPath.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     var getSchemaDiscriminatorByValue = require_getSchemaDiscriminatorByValue();
     module2.exports = function getEmbeddedDiscriminatorPath(doc, path, options) {
       options = options || {};
@@ -39448,7 +39448,7 @@ var require_getEmbeddedDiscriminatorPath = __commonJS({
         type = schema.pathType(subpath);
         if ((schemaType.$isSingleNested || schemaType.$isMongooseDocumentArrayElement) && schemaType.schema.discriminators != null) {
           const discriminators = schemaType.schema.discriminators;
-          const discriminatorKey = doc.get(subpath + "." + get2(schemaType, "schema.options.discriminatorKey"));
+          const discriminatorKey = doc.get(subpath + "." + get(schemaType, "schema.options.discriminatorKey"));
           if (discriminatorKey == null || discriminators[discriminatorKey] == null) {
             continue;
           }
@@ -39465,9 +39465,9 @@ var require_getEmbeddedDiscriminatorPath = __commonJS({
 var require_getKeysInSchemaOrder = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/getKeysInSchemaOrder.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = function getKeysInSchemaOrder(schema, val, path) {
-      const schemaKeys = path != null ? Object.keys(get2(schema.tree, path, {})) : Object.keys(schema.tree);
+      const schemaKeys = path != null ? Object.keys(get(schema.tree, path, {})) : Object.keys(schema.tree);
       const valKeys = new Set(Object.keys(val));
       let keys;
       if (valKeys.size > 1) {
@@ -39589,7 +39589,7 @@ var require_queryhelpers = __commonJS({
   "node_modules/mongoose/lib/queryhelpers.js"(exports) {
     "use strict";
     var checkEmbeddedDiscriminatorKeyProjection = require_checkEmbeddedDiscriminatorKeyProjection();
-    var get2 = require_get();
+    var get = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var isDefiningProjection = require_isDefiningProjection();
     var clone = require_clone();
@@ -39785,7 +39785,7 @@ var require_queryhelpers = __commonJS({
           let cur2 = "";
           for (let i = 0; i < pieces.length; ++i) {
             cur2 += (cur2.length === 0 ? "" : ".") + pieces[i];
-            const projection = get2(fields, cur2, false) || get2(fields, cur2 + ".$", false);
+            const projection = get(fields, cur2, false) || get(fields, cur2 + ".$", false);
             if (projection && typeof projection !== "object") {
               return;
             }
@@ -39866,7 +39866,7 @@ var require_document = __commonJS({
     var defineKey = require_compile().defineKey;
     var flatten = require_common4().flatten;
     var flattenObjectWithDottedPaths = require_flattenObjectWithDottedPaths();
-    var get2 = require_get();
+    var get = require_get();
     var getEmbeddedDiscriminatorPath = require_getEmbeddedDiscriminatorPath();
     var getKeysInSchemaOrder = require_getKeysInSchemaOrder();
     var handleSpreadDoc = require_handleSpreadDoc();
@@ -41860,7 +41860,7 @@ var require_document = __commonJS({
         flattenDecimals: true
       };
       const path = json ? "toJSON" : "toObject";
-      const baseOptions = this.constructor && this.constructor.base && this.constructor.base.options && get2(this.constructor.base.options, path) || {};
+      const baseOptions = this.constructor && this.constructor.base && this.constructor.base.options && get(this.constructor.base.options, path) || {};
       const schemaOptions = this.$__schema && this.$__schema.options || {};
       defaultOptions = utils.options(defaultOptions, clone(baseOptions));
       defaultOptions = utils.options(defaultOptions, clone(schemaOptions[path] || {}));
@@ -43790,7 +43790,7 @@ var require_connection2 = __commonJS({
     var applyPlugins = require_applyPlugins();
     var driver = require_driver();
     var promiseOrCallback = require_promiseOrCallback();
-    var get2 = require_get();
+    var get = require_get();
     var immediate = require_immediate();
     var mongodb = require_lib3();
     var pkg = require_package2();
@@ -43847,7 +43847,7 @@ var require_connection2 = __commonJS({
       if (this.config.hasOwnProperty(key)) {
         return this.config[key];
       }
-      return get2(this.options, key);
+      return get(this.options, key);
     };
     Connection.prototype.set = function(key, val) {
       if (this.config.hasOwnProperty(key)) {
@@ -45105,9 +45105,9 @@ var require_applyGlobalOption = __commonJS({
 var require_applyWriteConcern = __commonJS({
   "node_modules/mongoose/lib/helpers/schema/applyWriteConcern.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = function applyWriteConcern(schema, options) {
-      const writeConcern = get2(schema, "options.writeConcern", {});
+      const writeConcern = get(schema, "options.writeConcern", {});
       if (Object.keys(writeConcern).length != 0) {
         options.writeConcern = {};
         if (!("w" in options) && writeConcern.w != null) {
@@ -45347,7 +45347,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
   "node_modules/mongoose/lib/helpers/query/getEmbeddedDiscriminatorPath.js"(exports, module2) {
     "use strict";
     var cleanPositionalOperators = require_cleanPositionalOperators();
-    var get2 = require_get();
+    var get = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var updatedPathsByArrayFilter = require_updatedPathsByArrayFilter();
     module2.exports = function getEmbeddedDiscriminatorPath(schema, update, filter, path, options) {
@@ -45366,7 +45366,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
         }
         type = schema.pathType(subpath);
         if ((schematype.$isSingleNested || schematype.$isMongooseDocumentArrayElement) && schematype.schema.discriminators != null) {
-          const key = get2(schematype, "schema.options.discriminatorKey");
+          const key = get(schematype, "schema.options.discriminatorKey");
           const discriminatorValuePath = subpath + "." + key;
           const discriminatorFilterPath = discriminatorValuePath.replace(/\.\d+\./, ".");
           let discriminatorKey = null;
@@ -45377,7 +45377,7 @@ var require_getEmbeddedDiscriminatorPath2 = __commonJS({
             discriminatorKey = filter[discriminatorFilterPath];
           }
           const wrapperPath = subpath.replace(/\.\d+$/, "");
-          if (schematype.$isMongooseDocumentArrayElement && get2(filter[wrapperPath], "$elemMatch." + key) != null) {
+          if (schematype.$isMongooseDocumentArrayElement && get(filter[wrapperPath], "$elemMatch." + key) != null) {
             discriminatorKey = filter[wrapperPath].$elemMatch[key];
           }
           if (discriminatorValuePath in update) {
@@ -45445,7 +45445,7 @@ var require_handleImmutable2 = __commonJS({
 var require_moveImmutableProperties = __commonJS({
   "node_modules/mongoose/lib/helpers/update/moveImmutableProperties.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = function moveImmutableProperties(schema, update, ctx) {
       if (update == null) {
         return;
@@ -45468,7 +45468,7 @@ var require_moveImmutableProperties = __commonJS({
       if (schematype == null) {
         return;
       }
-      let immutable = get2(schematype, "options.immutable", null);
+      let immutable = get(schematype, "options.immutable", null);
       if (immutable == null) {
         return;
       }
@@ -46136,7 +46136,7 @@ var require_setDefaultsOnInsert = __commonJS({
   "node_modules/mongoose/lib/helpers/setDefaultsOnInsert.js"(exports, module2) {
     "use strict";
     var modifiedPaths = require_common4().modifiedPaths;
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = function(filter, schema, castedDoc, options) {
       options = options || {};
       const shouldSetDefaultsOnInsert = options.setDefaultsOnInsert != null ? options.setDefaultsOnInsert : schema.base.options.setDefaultsOnInsert;
@@ -46199,7 +46199,7 @@ var require_setDefaultsOnInsert = __commonJS({
         }
         castedDoc = castedDoc || {};
         castedDoc.$setOnInsert = castedDoc.$setOnInsert || {};
-        if (get2(castedDoc, path) == null) {
+        if (get(castedDoc, path) == null) {
           castedDoc.$setOnInsert[path] = def;
         }
         updatedValues[path] = def;
@@ -47058,7 +47058,7 @@ var require_query = __commonJS({
       this._update.$set[path] = val;
       return this;
     };
-    Query.prototype.get = function get2(path) {
+    Query.prototype.get = function get(path) {
       const update = this._update;
       if (update == null) {
         return void 0;
@@ -49432,7 +49432,7 @@ var require_applyDefaultsToPOJO = __commonJS({
 var require_applyMethods = __commonJS({
   "node_modules/mongoose/lib/helpers/model/applyMethods.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     var utils = require_utils6();
     module2.exports = function applyMethods(model2, schema) {
       function apply(method, schema2) {
@@ -49456,7 +49456,7 @@ var require_applyMethods = __commonJS({
           delete schema.methods[method];
           continue;
         }
-        if (schema.reserved[method] && !get2(schema, `methodOptions.${method}.suppressWarning`, false)) {
+        if (schema.reserved[method] && !get(schema, `methodOptions.${method}.suppressWarning`, false)) {
           utils.warn(`mongoose: the method name "${method}" is used by mongoose internally, overwriting it may cause bugs. If you're sure you know what you're doing, you can suppress this error by using \`schema.method('${method}', fn, { suppressWarning: true })\`.`);
         }
         if (typeof fn === "function") {
@@ -50657,7 +50657,7 @@ var require_assignVals = __commonJS({
     var MongooseMap = require_map2();
     var SkipPopulateValue = require_SkipPopulateValue();
     var assignRawDocsToIdStructure = require_assignRawDocsToIdStructure();
-    var get2 = require_get();
+    var get = require_get();
     var getVirtual = require_getVirtual();
     var leanPopulateMap = require_leanPopulateMap();
     var lookupLocalFields = require_lookupLocalFields();
@@ -50667,7 +50667,7 @@ var require_assignVals = __commonJS({
     var utils = require_utils6();
     var { populateModelSymbol } = require_symbols();
     module2.exports = function assignVals(o) {
-      const userOptions = Object.assign({}, get2(o, "allOptions.options.options"), get2(o, "allOptions.options"));
+      const userOptions = Object.assign({}, get(o, "allOptions.options.options"), get(o, "allOptions.options"));
       const populateOptions = Object.assign({}, o.options, userOptions, {
         justOne: o.justOne
       });
@@ -50727,9 +50727,9 @@ var require_assignVals = __commonJS({
           valueToSet = rawIds[i];
         }
         const originalSchema = o.originalModel.schema;
-        const isDoc = get2(docs[i], "$__", null) != null;
+        const isDoc = get(docs[i], "$__", null) != null;
         let isMap = isDoc ? existingVal instanceof Map : utils.isPOJO(existingVal);
-        isMap = isMap && get2(originalSchema._getSchema(_path), "$isSchemaMap");
+        isMap = isMap && get(originalSchema._getSchema(_path), "$isSchemaMap");
         if (!o.isVirtual && isMap) {
           const _keys = existingVal instanceof Map ? Array.from(existingVal.keys()) : Object.keys(existingVal);
           valueToSet = valueToSet.reduce((cur2, v, i2) => {
@@ -51226,7 +51226,7 @@ var require_getSchemaTypes = __commonJS({
   "node_modules/mongoose/lib/helpers/populate/getSchemaTypes.js"(exports, module2) {
     "use strict";
     var Mixed = require_mixed();
-    var get2 = require_get();
+    var get = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var leanPopulateMap = require_leanPopulateMap();
     var mpath = require_mpath();
@@ -51368,7 +51368,7 @@ var require_getSchemaTypes = __commonJS({
               return ret;
             }
           }
-          const _val = get2(topLevelDoc, trypath);
+          const _val = get(topLevelDoc, trypath);
           if (_val != null) {
             const model3 = Array.isArray(_val) && _val.length > 0 ? leanPopulateMap.get(_val[0]) : leanPopulateMap.get(_val);
             const schema3 = model3 != null ? model3.schema : null;
@@ -51508,7 +51508,7 @@ var require_getModelsMapForPopulate = __commonJS({
     "use strict";
     var MongooseError = require_error3();
     var SkipPopulateValue = require_SkipPopulateValue();
-    var get2 = require_get();
+    var get = require_get();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var getConstructorName = require_getConstructorName();
     var getSchemaTypes = require_getSchemaTypes();
@@ -51553,7 +51553,7 @@ var require_getModelsMapForPopulate = __commonJS({
           continue;
         }
         const isUnderneathDocArray = schema && schema.$isUnderneathDocArray;
-        if (isUnderneathDocArray && get2(options, "options.sort") != null) {
+        if (isUnderneathDocArray && get(options, "options.sort") != null) {
           return new MongooseError("Cannot populate with `sort` on path " + options.path + " because it is a subproperty of a document array");
         }
         modelNames = null;
@@ -51609,7 +51609,7 @@ var require_getModelsMapForPopulate = __commonJS({
             isRefPath = res.isRefPath;
             normalizedRefPath = normalizedRefPath || res.refPath;
             justOne = res.justOne;
-            schemaOptions = get2(schema, "options.populate", null);
+            schemaOptions = get(schema, "options.populate", null);
             if (isRefPath) {
               modelNamesInOrder = modelNames;
               modelNames = Array.from(new Set(modelNames));
@@ -51641,7 +51641,7 @@ var require_getModelsMapForPopulate = __commonJS({
         const ret = _getLocalFieldValues(doc, localField, model2, options, null, schema);
         const id = String(utils.getValue(foreignField, doc));
         options._docs[id] = Array.isArray(ret) ? ret.slice() : ret;
-        let match = get2(options, "match", null);
+        let match = get(options, "match", null);
         const hasMatchFunction = typeof match === "function";
         if (hasMatchFunction) {
           match = match.call(doc, doc);
@@ -51728,7 +51728,7 @@ var require_getModelsMapForPopulate = __commonJS({
           if (schemaForCurrentDoc != null) {
             justOne = !schemaForCurrentDoc.$isMongooseArray && !schemaForCurrentDoc._arrayPath;
           }
-          if ((ref2 = get2(schemaForCurrentDoc, "options.ref")) != null) {
+          if ((ref2 = get(schemaForCurrentDoc, "options.ref")) != null) {
             if (schemaForCurrentDoc != null && typeof ref2 === "function" && options.path.endsWith("." + schemaForCurrentDoc.path)) {
               modelNames2 = /* @__PURE__ */ new Set();
               const subdocPath = options.path.slice(0, options.path.length - schemaForCurrentDoc.path.length - 1);
@@ -51746,7 +51746,7 @@ var require_getModelsMapForPopulate = __commonJS({
               ref2 = handleRefFunction(ref2, doc2);
               modelNames2 = [ref2];
             }
-          } else if ((schemaForCurrentDoc = get2(schema2, "options.refPath")) != null) {
+          } else if ((schemaForCurrentDoc = get(schema2, "options.refPath")) != null) {
             isRefPath = true;
             if (typeof refPath2 === "function") {
               const subdocPath = options.path.slice(0, options.path.length - schemaForCurrentDoc.path.length - 1);
@@ -51838,7 +51838,7 @@ var require_getModelsMapForPopulate = __commonJS({
         data.isVirtual = true;
         data.virtual = virtual;
         data.justOne = justOne;
-        let match = get2(options, "match", null) || get2(data, "virtual.options.match", null) || get2(data, "virtual.options.options.match", null);
+        let match = get(options, "match", null) || get(data, "virtual.options.match", null) || get(data, "virtual.options.options.match", null);
         let hasMatchFunction = typeof match === "function";
         if (hasMatchFunction) {
           match = match.call(doc, doc);
@@ -51901,12 +51901,12 @@ var require_getModelsMapForPopulate = __commonJS({
         if (data.isRefPath && Array.isArray(ret) && flat.length === modelNamesForRefPath.length) {
           ids = flat.filter((val, i) => modelNamesForRefPath[i] === modelName);
         }
-        const perDocumentLimit = options.perDocumentLimit == null ? get2(options, "options.perDocumentLimit", null) : options.perDocumentLimit;
+        const perDocumentLimit = options.perDocumentLimit == null ? get(options, "options.perDocumentLimit", null) : options.perDocumentLimit;
         if (!available[modelName] || perDocumentLimit != null) {
           const currentOptions = {
             model: Model
           };
-          if (data.isVirtual && get2(data.virtual, "options.options")) {
+          if (data.isVirtual && get(data.virtual, "options.options")) {
             currentOptions.options = utils.clone(data.virtual.options.options);
           } else if (schemaOptions != null) {
             currentOptions.options = Object.assign({}, schemaOptions);
@@ -51960,8 +51960,8 @@ var require_getModelsMapForPopulate = __commonJS({
       const localFieldPath = localFieldPathType === "real" ? model2.schema.path(localField) : localFieldPathType.schema;
       const localFieldGetters = localFieldPath && localFieldPath.getters ? localFieldPath.getters : [];
       localField = localFieldPath != null && localFieldPath.instance === "Embedded" ? localField + "._id" : localField;
-      const _populateOptions = get2(options, "options", {});
-      const getters = "getters" in _populateOptions ? _populateOptions.getters : get2(virtual, "options.getters", false);
+      const _populateOptions = get(options, "options", {});
+      const getters = "getters" in _populateOptions ? _populateOptions.getters : get(virtual, "options.getters", false);
       if (localFieldGetters.length !== 0 && getters) {
         const hydratedDoc = doc.$__ != null ? doc : model2.hydrate(doc);
         const localFieldValue = utils.getValue(localField, doc);
@@ -52053,7 +52053,7 @@ var require_getModelsMapForPopulate = __commonJS({
 var require_isDefaultIdIndex = __commonJS({
   "node_modules/mongoose/lib/helpers/indexes/isDefaultIdIndex.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     module2.exports = function isDefaultIdIndex(index) {
       if (Array.isArray(index)) {
         const keys = Object.keys(index[0]);
@@ -52062,7 +52062,7 @@ var require_isDefaultIdIndex = __commonJS({
       if (typeof index !== "object") {
         return false;
       }
-      const key = get2(index, "key", {});
+      const key = get(index, "key", {});
       return Object.keys(key).length === 1 && key.hasOwnProperty("_id");
     };
   }
@@ -52072,7 +52072,7 @@ var require_isDefaultIdIndex = __commonJS({
 var require_isIndexEqual = __commonJS({
   "node_modules/mongoose/lib/helpers/indexes/isIndexEqual.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     var utils = require_utils6();
     module2.exports = function isIndexEqual(schemaIndexKeysObject, options, dbIndex) {
       if (dbIndex.textIndexVersion != null) {
@@ -52087,7 +52087,7 @@ var require_isIndexEqual = __commonJS({
             return false;
           }
           const weight = weights[prop];
-          if (weight !== get2(options, "weights." + prop) && !(weight === 1 && get2(options, "weights." + prop) == null)) {
+          if (weight !== get(options, "weights." + prop) && !(weight === 1 && get(options, "weights." + prop) == null)) {
             return false;
           }
         }
@@ -52115,7 +52115,7 @@ var require_isIndexEqual = __commonJS({
           const schemaCollation = options.collation;
           const dbCollation = dbIndex.collation;
           for (const opt of definedKeys) {
-            if (get2(schemaCollation, opt) !== get2(dbCollation, opt)) {
+            if (get(schemaCollation, opt) !== get(dbCollation, opt)) {
               return false;
             }
           }
@@ -52295,11 +52295,11 @@ var require_pushNestedArrayPaths = __commonJS({
 var require_removeDeselectedForeignField = __commonJS({
   "node_modules/mongoose/lib/helpers/populate/removeDeselectedForeignField.js"(exports, module2) {
     "use strict";
-    var get2 = require_get();
+    var get = require_get();
     var mpath = require_mpath();
     var parseProjection = require_parseProjection();
     module2.exports = function removeDeselectedForeignField(foreignFields, options, docs) {
-      const projection = parseProjection(get2(options, "select", null), true) || parseProjection(get2(options, "options.select", null), true);
+      const projection = parseProjection(get(options, "select", null), true) || parseProjection(get(options, "options.select", null), true);
       if (projection == null) {
         return;
       }
@@ -52358,7 +52358,7 @@ var require_model = __commonJS({
     var discriminator = require_discriminator();
     var firstKey = require_firstKey();
     var each = require_each();
-    var get2 = require_get();
+    var get = require_get();
     var getConstructorName = require_getConstructorName();
     var getDiscriminatorByValue = require_getDiscriminatorByValue();
     var getModelsMapForPopulate = require_getModelsMapForPopulate();
@@ -52824,7 +52824,7 @@ var require_model = __commonJS({
           where[key] = value;
       }
       if (VERSION_INC === (VERSION_INC & this.$__.version)) {
-        if (get2(delta.$set, key, null) != null) {
+        if (get(delta.$set, key, null) != null) {
           ++delta.$set[key];
         } else {
           delta.$inc = delta.$inc || {};
@@ -54050,7 +54050,7 @@ var require_model = __commonJS({
         if (!schemaType || !schemaType.$isMongooseArray) {
           continue;
         }
-        const val = get2(obj, path);
+        const val = get(obj, path);
         pushNestedArrayPaths(paths, val, path);
       }
       let error = null;
@@ -54059,7 +54059,7 @@ var require_model = __commonJS({
         if (schemaType == null) {
           continue;
         }
-        let val = get2(obj, path, void 0);
+        let val = get(obj, path, void 0);
         if (val == null) {
           continue;
         }
@@ -54285,7 +54285,7 @@ var require_model = __commonJS({
           if (!schemaType || !schemaType.$isMongooseArray || schemaType.$isMongooseDocumentArray) {
             continue;
           }
-          const val = get2(obj, path);
+          const val = get(obj, path);
           pushNestedArrayPaths(paths, val, path);
         }
         let remaining = paths.length;
@@ -54301,7 +54301,7 @@ var require_model = __commonJS({
           for (let i = 0; i < pieces.length - 1; ++i) {
             cur = cur[pieces[i]];
           }
-          let val = get2(obj, path, void 0);
+          let val = get(obj, path, void 0);
           if (val != null) {
             try {
               val = schemaType.cast(val);
@@ -55674,11 +55674,20 @@ var productSchema = new import_mongoose.Schema({
 var Product = (0, import_mongoose.model)("Product", productSchema);
 
 // data/productRepository.ts
-var get = async (sku) => {
-  const product = await Product.findOne({ sku });
-  if (!product)
-    throw new Error();
-  return product;
+var InMemoryRepository = class {
+  constructor() {
+    this.data = [
+      { sku: "abc", name: "hat" },
+      { sku: "def", name: "shoe" },
+      { sku: "ghi", name: "sock" }
+    ];
+  }
+  async get(sku) {
+    const product = await this.data.find((e) => e.sku === sku);
+    if (!product)
+      throw new Error();
+    return product;
+  }
 };
 
 // handler.ts
@@ -55691,7 +55700,9 @@ var handle = async (event) => {
   if (!sku) {
     throw new Error();
   }
-  const product = await get(sku);
+  let repo;
+  repo = new InMemoryRepository();
+  const product = await repo.get(sku);
   return {
     statusCode: 200,
     body: JSON.stringify(product)
