@@ -3,11 +3,10 @@ import {
   MongoRepository,
   IProductRepository,
   InMemoryRepository,
+  connect,
 } from "./data/productRepository";
-import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI!;
-const SERVER_PORT = process.env.PORT ? Number(process.env.PORT) : 5000;
 
 export const handle = async (
   event: APIGatewayProxyEvent
@@ -21,21 +20,13 @@ export const handle = async (
     throw new Error("Sku not provided");
   }
   try {
-    mongoose
-      .connect(MONGODB_URI, { retryWrites: true, w: "majority" })
-      .then(() => {
-        console.log("Connected to mongoDB.");
-      })
-      .catch((error) => {
-        console.log("Unable to connect:", error);
-      });
+    console.log("CONNECT");
+    connect();
   } catch (error) {
     console.log("CATCH", error);
   }
 
-  let repo: IProductRepository;
-
-  repo = new MongoRepository();
+  const repo = new MongoRepository();
   console.log("repo", repo);
   const product = await repo.get(sku);
   console.log("product", product);
