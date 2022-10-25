@@ -1,15 +1,20 @@
 import { Product, IProduct } from "../models/product";
-import mongoose from "mongoose";
+import * as mongodb from "mongodb";
 
 export interface IProductRepository {
-  get: (sku: string) => Promise<IProduct>;
+  get: (sku: string) => Promise<mongodb.WithId<mongodb.Document>>;
 }
 
 export class MongoRepository implements IProductRepository {
-  constructor() {}
-  async get(sku: string): Promise<IProduct> {
+  db: mongodb.Db;
+
+  constructor(db: mongodb.Db) {
+    this.db = db;
+  }
+
+  async get(sku: string): Promise<mongodb.WithId<mongodb.Document>> {
     console.log("PRODUCT");
-    const product = await Product.findOne({ sku });
+    const product = await this.db.collection("products").findOne({ sku });
     console.log("product");
 
     if (!product) throw new Error();
@@ -18,30 +23,26 @@ export class MongoRepository implements IProductRepository {
   }
 }
 
-export class InMemoryRepository implements IProductRepository {
-  data = [
-    { sku: "abc", name: "hat" },
-    { sku: "def", name: "shoe" },
-    { sku: "ghi", name: "sock" },
-  ];
+// export class InMemoryRepository implements IProductRepository {
+//   data = [
+//     { sku: "abc", name: "hat" },
+//     { sku: "def", name: "shoe" },
+//     { sku: "ghi", name: "sock" },
+//   ];
 
-  async get(sku: string): Promise<IProduct> {
-    const product = await this.data.find((e) => e.sku === sku);
+//   async get(sku: string): Promise<IProduct> {
+//     const product = await this.data.find((e) => e.sku === sku);
 
-    if (!product) throw new Error();
+//     if (!product) throw new Error();
 
-    return product;
-  }
-}
+//     return product;
+//   }
+// }
 
 export const connect = async () => {
-  try {
-    const MONGODB_URI = process.env.MONGODB_URI!;
-    console.log("URI", MONGODB_URI);
-    await mongoose.connect(MONGODB_URI);
-    console.log("Successfully connected to mongoDB");
-  } catch (error) {
-    console.log("CONNECT ERROR", error);
-    throw error;
-  }
+  const MONGODB_URI = process.env.MONGODB_URI!;
+
+  const client = await mongodb.MongoClient.connect(MONGODB_URI);
+  const db = await client.db("test");
+  return db;
 };

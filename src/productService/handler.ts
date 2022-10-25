@@ -2,7 +2,6 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import {
   MongoRepository,
   IProductRepository,
-  InMemoryRepository,
   connect,
 } from "./data/productRepository";
 
@@ -19,14 +18,10 @@ export const handle = async (
   if (!sku) {
     throw new Error("Sku not provided");
   }
-  try {
-    console.log("CONNECT");
-    connect();
-  } catch (error) {
-    console.log("CATCH", error);
-  }
 
-  const repo = new MongoRepository();
+  const db = await connect();
+
+  const repo = new MongoRepository(db);
   console.log("repo", repo);
   const product = await repo.get(sku);
   console.log("product", product);
