@@ -11,13 +11,13 @@ const MONGODB_URI = process.env.MONGODB_URI!;
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  if (mongoose.connection.readyState === 0) await mongoose.connect(MONGODB_URI);
-
   const sku = event.pathParameters!.sku;
 
   if (!sku) {
-    throw new Error();
+    throw new Error("Sku not provided");
   }
+
+  if (mongoose.connection.readyState === 0) await mongoose.connect(MONGODB_URI);
 
   let repo: IProductRepository;
 
