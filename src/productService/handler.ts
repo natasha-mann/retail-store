@@ -20,7 +20,7 @@ export const handle = async (
     throw new Error("Sku not provided");
   }
 
-  if (mongoose.connection.readyState === 0) await mongoose.connect(MONGODB_URI);
+  await mongoose.connect(MONGODB_URI);
 
   let repo: IProductRepository;
 
