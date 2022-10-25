@@ -11,7 +11,9 @@ const MONGODB_URI = process.env.MONGODB_URI!;
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
+  console.log("HANDLER");
   const sku = event.pathParameters!.sku;
+  console.log("SKU", sku);
 
   if (!sku) {
     throw new Error("Sku not provided");
@@ -21,7 +23,7 @@ export const handle = async (
 
   let repo: IProductRepository;
 
-  repo = new InMemoryRepository();
+  repo = new MongoRepository();
   const product = await repo.get(sku);
 
   return {
