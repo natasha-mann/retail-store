@@ -7,6 +7,7 @@ import {
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI!;
+const SERVER_PORT = process.env.PORT ? Number(process.env.PORT) : 5000;
 
 export const handle = async (
   event: APIGatewayProxyEvent
@@ -20,7 +21,14 @@ export const handle = async (
     throw new Error("Sku not provided");
   }
   try {
-    await mongoose.connect(MONGODB_URI);
+    mongoose
+      .connect(MONGODB_URI, { retryWrites: true, w: "majority" })
+      .then(() => {
+        console.log("Connected to mongoDB.");
+      })
+      .catch((error) => {
+        console.log("Unable to connect:", error);
+      });
   } catch (error) {
     console.log("CATCH", error);
   }
