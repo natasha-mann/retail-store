@@ -40,6 +40,7 @@ export class MongoRepository implements IProductRepository {
 // }
 
 export const connect = async () => {
+  console.log("connecting");
   const MONGODB_URI = process.env.MONGODB_URI!;
   try {
     const client = await mongodb.MongoClient.connect(MONGODB_URI);

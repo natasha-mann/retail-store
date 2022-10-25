@@ -39,7 +39,7 @@ Resources:
       Dimensions:
         - Name: FunctionName
           Value: retail-store-product-service-dev-ProductServiceApi
-      Period: 300
+      Period: 30000
       EvaluationPeriods: 1
       DatapointsToAlarm: 1
       Threshold: 5
