@@ -2,7 +2,9 @@ import { Product, IProduct } from "../models/product";
 import * as mongodb from "mongodb";
 
 export interface IProductRepository {
-  get: (sku: string) => Promise<mongodb.WithId<mongodb.Document>>;
+  get: (
+    sku: string
+  ) => Promise<mongodb.WithId<mongodb.Document>> | Promise<IProduct>;
 }
 
 export class MongoRepository implements IProductRepository {
@@ -23,33 +25,29 @@ export class MongoRepository implements IProductRepository {
   }
 }
 
-// export class InMemoryRepository implements IProductRepository {
-//   data = [
-//     { sku: "abc", name: "hat" },
-//     { sku: "def", name: "shoe" },
-//     { sku: "ghi", name: "sock" },
-//   ];
+export class InMemoryRepository implements IProductRepository {
+  data = [
+    { sku: "abc", name: "hat" },
+    { sku: "def", name: "shoe" },
+    { sku: "ghi", name: "sock" },
+  ];
 
-//   async get(sku: string): Promise<IProduct> {
-//     const product = await this.data.find((e) => e.sku === sku);
+  async get(sku: string): Promise<IProduct> {
+    const product = await this.data.find((e) => e.sku === sku);
 
-//     if (!product) throw new Error();
+    if (!product) throw new Error();
 
-//     return product;
-//   }
-// }
+    return product;
+  }
+}
 
 export const connect = async () => {
-  console.log("connecting");
   const MONGODB_URI = process.env.MONGODB_URI!;
   try {
     const client = await mongodb.MongoClient.connect(MONGODB_URI);
-    console.log("CLIENT", client);
     const db = await client.db("test");
-    console.log("DB", db);
     return db;
   } catch (error) {
-    console.log(error);
     throw new Error(`ERROR: ${error}`);
   }
 };
