@@ -15,12 +15,8 @@ export class MongoRepository implements IProductRepository {
   }
 
   async get(sku: string): Promise<mongodb.WithId<mongodb.Document>> {
-    console.log("PRODUCT");
     const product = await this.db.collection("products").findOne({ sku });
-    console.log("product");
-
-    if (!product) throw new Error();
-
+    if (!product) throw new Error("This product doesn't exist");
     return product;
   }
 }
