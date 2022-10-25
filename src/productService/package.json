@@ -7,7 +7,7 @@
     "docker": "docker-compose up",
     "dev": "serverless offline start",
     "test": "jest",
-    "seed": "node data/seeds"
+    "seed": "node data/seeds.ts"
   },
   "keywords": [],
   "author": "",

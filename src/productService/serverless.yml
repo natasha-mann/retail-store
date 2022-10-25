@@ -5,6 +5,8 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: eu-west-1
+  environment:
+    MONGODB_URI: ${ssm:/retailstore/productservice/database}
 
 functions:
   ProductServiceApi:
