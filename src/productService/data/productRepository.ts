@@ -1,5 +1,5 @@
 import { Product, IProduct } from "../models/product";
-import * as mongoDB from "mongodb";
+import mongoose from "mongoose";
 
 export interface IProductRepository {
   get: (sku: string) => Promise<IProduct>;
