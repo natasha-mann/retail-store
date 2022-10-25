@@ -7,6 +7,9 @@ provider:
   region: eu-west-1
   environment:
     MONGODB_URI: ${ssm:/retailstore/productservice/database}
+  tracing:
+    lambda: true
+    apiGateway: true
 
 functions:
   ProductServiceApi:
@@ -19,3 +22,26 @@ functions:
 plugins:
   - serverless-esbuild
   - serverless-offline
+
+Resources:
+  resources:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: product service
+      ActionsEnabled: true
+      OKActions: []
+      AlarmActions:
+        - arn:aws:sns:eu-west-1:379469873982:Default_CloudWatch_Alarms_Topic
+      InsufficientDataActions: []
+      MetricName: Errors
+      Namespace: AWS/Lambda
+      Statistic: Sum
+      Dimensions:
+        - Name: FunctionName
+          Value: retail-store-product-service-dev-ProductServiceApi
+      Period: 300
+      EvaluationPeriods: 1
+      DatapointsToAlarm: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: missing
