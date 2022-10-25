@@ -14,6 +14,7 @@ export const handle = async (
   console.log("HANDLER");
   const sku = event.pathParameters!.sku;
   console.log("SKU", sku);
+  console.log("mongouri", MONGODB_URI);
 
   if (!sku) {
     throw new Error("Sku not provided");
