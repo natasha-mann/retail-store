@@ -19,13 +19,18 @@ export const handle = async (
   if (!sku) {
     throw new Error("Sku not provided");
   }
-
-  await mongoose.connect(MONGODB_URI);
+  try {
+    await mongoose.connect(MONGODB_URI);
+  } catch (error) {
+    console.log("CATCH", error);
+  }
 
   let repo: IProductRepository;
 
   repo = new MongoRepository();
+  console.log("repo", repo);
   const product = await repo.get(sku);
+  console.log("product", product);
 
   return {
     statusCode: 200,
