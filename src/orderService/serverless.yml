@@ -19,6 +19,18 @@ functions:
       - http:
           path: /{id}
           method: POST
+resources:
+  Resources:
+    ordersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ordersTable
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
 
 plugins:
   - serverless-esbuild
