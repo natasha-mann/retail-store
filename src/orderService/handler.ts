@@ -1,4 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import fetch from "node-fetch";
 
 type Order = {
   id: string;
@@ -22,11 +23,17 @@ export const handle = async (
         Item: data,
       };
 
+      const response = await fetch(
+        "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
+      );
+
+      const productData = await response.json();
+
       try {
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: "Successfully added item",
+          body: JSON.stringify(productData),
         };
       } catch (err) {
         return {
