@@ -8,6 +8,19 @@ provider:
   tracing:
     lambda: true
     apiGateway: true
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:eu-west-1:379469873982:table/ordersTable"
 
 functions:
   OrderServiceApi:
@@ -17,8 +30,9 @@ functions:
           path: /{id}
           method: GET
       - http:
-          path: /{id}
+          path: /
           method: POST
+
 resources:
   Resources:
     ordersTable:
