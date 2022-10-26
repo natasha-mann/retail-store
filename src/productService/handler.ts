@@ -5,8 +5,6 @@ import {
   connect,
 } from "./data/productRepository";
 
-const MONGODB_URI = process.env.MONGODB_URI!;
-
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {

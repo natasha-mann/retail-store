@@ -1,0 +1,25 @@
+service: retail-store-order-service
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-1
+  tracing:
+    lambda: true
+    apiGateway: true
+
+functions:
+  OrderServiceApi:
+    handler: handler.handle
+    events:
+      - http:
+          path: /{id}
+          method: GET
+      - http:
+          path: /{id}
+          method: POST
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
