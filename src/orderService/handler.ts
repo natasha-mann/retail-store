@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 
 type Order = {
-  id: number;
+  id: string;
   billingDate: Date;
 };
 
