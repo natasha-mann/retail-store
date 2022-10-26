@@ -25,6 +25,9 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ordersTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
         KeySchema:
           - AttributeName: id
             KeyType: HASH
