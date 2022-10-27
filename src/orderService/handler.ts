@@ -32,7 +32,9 @@ export const handle = async (
       // const productData = await response.json();
 
       const pathParams = {
-        pathParameters: "ghi",
+        pathParameters: {
+          sku: "ghi",
+        },
       };
 
       const lambdaParams = {
@@ -46,12 +48,13 @@ export const handle = async (
       const lambda = new AWS.Lambda();
 
       try {
-        const { payload } = await lambda.invoke(lambdaParams);
-        console.log(payload);
+        const response = await lambda.invoke(lambdaParams);
+        const data = JSON.parse(response);
+        console.log(data);
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: JSON.stringify(payload),
+          body: JSON.stringify(response.payload),
         };
       } catch (err) {
         return {
