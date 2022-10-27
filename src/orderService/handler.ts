@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import fetch from "node-fetch";
 import AWSXRay from "aws-xray-sdk-core";
 const AWS = AWSXRay.captureAWS(require("aws-sdk"));
+import https from "https";
 
 type Order = {
   id: string;
@@ -24,11 +25,28 @@ export const handle = async (
         Item: data,
       };
 
-      const response = await fetch(
-        "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
-      );
+      // const response = await fetch(
+      //   "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
+      // );
 
-      const productData = await response.json();
+      // const productData = await response.json();
+
+      const lambdaParams = {
+        FunctionName: "ProductServiceApi",
+        InvocationType: "RequestResponse",
+        LogType: "Tail",
+      };
+
+      const lambda = new AWS.Lambda();
+      let productData;
+
+      lambda.invoke(lambdaParams, function (err: any, data: any) {
+        if (err) {
+          console.log(err);
+        } else {
+          productData = data;
+        }
+      });
 
       try {
         await docClient.put(params).promise();
