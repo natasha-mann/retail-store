@@ -32,7 +32,7 @@ export const handle = async (
       // const productData = await response.json();
 
       const lambdaParams = {
-        FunctionName: "ProductServiceApi",
+        FunctionName: "retail-store-product-service-dev-ProductServiceApi",
         InvocationType: "RequestResponse",
         LogType: "Tail",
       };
