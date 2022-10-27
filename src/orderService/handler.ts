@@ -1,12 +1,6 @@
-import { Product } from "./../productService/models/product";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import fetch from "node-fetch";
-import AWSXRay from "aws-xray-sdk";
-const AWS = AWSXRay.captureAWS(require("aws-sdk"));
-
-// Capture all outgoing https requests
-AWSXRay.captureHTTPsGlobal(require("https"));
-const https = require("https");
+import AWS from "aws-sdk";
 
 type Order = {
   id: string;
@@ -22,30 +16,17 @@ export const handle = async (
   if (event.httpMethod === "POST") {
     if (event.body) {
       const data = JSON.parse(event.body) as Order;
-      console.log(data);
 
       const params = {
         TableName: tableName,
         Item: data,
       };
 
-      const response = await https.get(
+      const response = await fetch(
         "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
       );
 
-      let productData;
-
-      response.on("data", function (body: any) {
-        console.log(body);
-        productData = body;
-      });
-
-      console.log(response);
-      // const response = await fetch(
-      //   "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
-      // );
-
-      // const productData = await response.json();
+      const productData = await response.json();
 
       // const pathParams = {
       //   pathParameters: {
