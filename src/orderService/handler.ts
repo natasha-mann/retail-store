@@ -1,8 +1,12 @@
+import { Product } from "./../productService/models/product";
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import fetch from "node-fetch";
-import AWSXRay from "aws-xray-sdk-core";
+import AWSXRay from "aws-xray-sdk";
 const AWS = AWSXRay.captureAWS(require("aws-sdk"));
-import https from "https";
+
+// Capture all outgoing https requests
+AWSXRay.captureHTTPsGlobal(require("https"));
+const https = require("https");
 
 type Order = {
   id: string;
@@ -25,37 +29,42 @@ export const handle = async (
         Item: data,
       };
 
+      const response = await https.get(
+        "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
+      );
+
       // const response = await fetch(
       //   "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
       // );
 
-      // const productData = await response.json();
+      const productData = await response.json();
 
-      const pathParams = {
-        pathParameters: {
-          sku: "ghi",
-        },
-      };
+      // const pathParams = {
+      //   pathParameters: {
+      //     sku: "ghi",
+      //   },
+      //   httpMethod: "GET",
+      // };
 
-      const lambdaParams = {
-        FunctionName:
-          "arn:aws:lambda:eu-west-1:379469873982:function:retail-store-product-service-dev-ProductServiceApi",
-        InvocationType: "RequestResponse",
-        LogType: "Tail",
-        Payload: JSON.stringify(pathParams),
-      };
+      // const lambdaParams = {
+      //   FunctionName:
+      //     "arn:aws:lambda:eu-west-1:379469873982:function:retail-store-product-service-dev-ProductServiceApi",
+      //   InvocationType: "RequestResponse",
+      //   LogType: "Tail",
+      //   Payload: JSON.stringify(pathParams),
+      // };
 
-      const lambda = new AWS.Lambda();
+      // const lambda = new AWS.Lambda();
 
       try {
-        const response = await lambda.invoke(lambdaParams);
-        console.log("RESPONSE", response);
-        const data = JSON.parse(response);
-        console.log("DATA", data);
+        // const response = await lambda.invoke(lambdaParams);
+        // console.log("RESPONSE", response);
+        // const data = JSON.parse(response);
+        // console.log("DATA", data);
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: JSON.stringify(data.payload),
+          body: JSON.stringify(productData),
         };
       } catch (err) {
         return {
