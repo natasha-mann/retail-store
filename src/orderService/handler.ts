@@ -32,7 +32,8 @@ export const handle = async (
       // const productData = await response.json();
 
       const lambdaParams = {
-        FunctionName: "retail-store-product-service-dev-ProductServiceApi",
+        FunctionName:
+          "arn:aws:lambda:eu-west-1:379469873982:function:retail-store-product-service-dev-ProductServiceApi",
         InvocationType: "RequestResponse",
         LogType: "Tail",
       };
@@ -40,12 +41,12 @@ export const handle = async (
       const lambda = new AWS.Lambda();
 
       try {
-        const productData = await lambda.invoke(lambdaParams);
-        console.log(productData);
+        const { payload } = await lambda.invoke(lambdaParams);
+        console.log(payload);
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: JSON.stringify(productData),
+          body: JSON.stringify(payload),
         };
       } catch (err) {
         return {
