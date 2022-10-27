@@ -31,11 +31,16 @@ export const handle = async (
 
       // const productData = await response.json();
 
+      const pathParams = {
+        pathParameters: "ghi",
+      };
+
       const lambdaParams = {
         FunctionName:
           "arn:aws:lambda:eu-west-1:379469873982:function:retail-store-product-service-dev-ProductServiceApi",
         InvocationType: "RequestResponse",
         LogType: "Tail",
+        Payload: JSON.stringify(pathParams),
       };
 
       const lambda = new AWS.Lambda();
