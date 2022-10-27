@@ -49,12 +49,13 @@ export const handle = async (
 
       try {
         const response = await lambda.invoke(lambdaParams);
+        console.log("RESPONSE", response);
         const data = JSON.parse(response);
-        console.log(data);
+        console.log("DATA", data);
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: JSON.stringify(response.payload),
+          body: JSON.stringify(data.payload),
         };
       } catch (err) {
         return {
