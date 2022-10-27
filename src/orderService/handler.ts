@@ -33,11 +33,19 @@ export const handle = async (
         "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
       );
 
+      let productData;
+
+      response.on("data", function (body: any) {
+        console.log(body);
+        productData = body;
+      });
+
+      console.log(response);
       // const response = await fetch(
       //   "https://gq5qiy5s3g.execute-api.eu-west-1.amazonaws.com/dev/ghi"
       // );
 
-      const productData = await response.json();
+      // const productData = await response.json();
 
       // const pathParams = {
       //   pathParameters: {
