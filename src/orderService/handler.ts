@@ -38,17 +38,10 @@ export const handle = async (
       };
 
       const lambda = new AWS.Lambda();
-      let productData;
-
-      lambda.invoke(lambdaParams, function (err: any, data: any) {
-        if (err) {
-          console.log(err);
-        } else {
-          productData = data;
-        }
-      });
 
       try {
+        const productData = await lambda.invoke(lambdaParams);
+        console.log(productData);
         await docClient.put(params).promise();
         return {
           statusCode: 200,
