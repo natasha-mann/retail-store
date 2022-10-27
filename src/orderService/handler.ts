@@ -1,5 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import fetch from "node-fetch";
+import AWSXRay from "aws-xray-sdk-core";
+const AWS = AWSXRay.captureAWS(require("aws-sdk"));
 
 type Order = {
   id: string;
@@ -9,7 +11,6 @@ type Order = {
 export const handle = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  const AWS = require("aws-sdk");
   const docClient = new AWS.DynamoDB.DocumentClient();
   const tableName = "ordersTable";
 
