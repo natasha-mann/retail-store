@@ -60,18 +60,18 @@ export const handle = async (
 
     try {
       const data = await docClient.get(params).promise();
-
-      if (!data) {
+      console.log(data);
+      if (data) {
+        return {
+          statusCode: 200,
+          body: JSON.stringify(data),
+        };
+      } else {
         return {
           statusCode: 400,
           body: "Item with this ID not found",
         };
       }
-
-      return {
-        statusCode: 200,
-        body: JSON.stringify(data),
-      };
     } catch (err) {
       return {
         statusCode: 400,
