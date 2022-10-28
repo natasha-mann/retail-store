@@ -60,8 +60,8 @@ export const handle = async (
 
     try {
       const data = await docClient.get(params).promise();
-      console.log(data);
-      if (data) {
+      console.log(data.Item);
+      if (data.Item) {
         return {
           statusCode: 200,
           body: JSON.stringify(data),
