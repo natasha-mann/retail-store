@@ -50,6 +50,7 @@ export const handle = async (
     if (!id) {
       throw new Error("ID not provided");
     }
+
     const params = {
       TableName: tableName,
       Key: {
@@ -59,6 +60,14 @@ export const handle = async (
 
     try {
       const data = await docClient.get(params).promise();
+
+      if (!data) {
+        return {
+          statusCode: 400,
+          body: "Item with this ID not found",
+        };
+      }
+
       return {
         statusCode: 200,
         body: JSON.stringify(data),
