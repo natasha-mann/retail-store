@@ -27,12 +27,13 @@ export const handle = async (
       );
 
       const productData = await response.json();
+      console.log(productData);
 
       try {
         await docClient.put(params).promise();
         return {
           statusCode: 200,
-          body: JSON.stringify(productData),
+          body: JSON.stringify(data),
         };
       } catch (err) {
         return {
