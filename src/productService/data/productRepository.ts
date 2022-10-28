@@ -4,7 +4,7 @@ import * as mongodb from "mongodb";
 export interface IProductRepository {
   get: (
     sku: string
-  ) => Promise<mongodb.WithId<mongodb.Document>> | Promise<IProduct>;
+  ) => Promise<mongodb.WithId<mongodb.Document> | null> | Promise<IProduct>;
 }
 
 export class MongoRepository implements IProductRepository {
@@ -14,9 +14,9 @@ export class MongoRepository implements IProductRepository {
     this.db = db;
   }
 
-  async get(sku: string): Promise<mongodb.WithId<mongodb.Document>> {
+  async get(sku: string): Promise<mongodb.WithId<mongodb.Document> | null> {
     const product = await this.db.collection("products").findOne({ sku });
-    if (!product) throw new Error("This product doesn't exist");
+    // if (!product) throw new Error("This product doesn't exist");
     return product;
   }
 }
