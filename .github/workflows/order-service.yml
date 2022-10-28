@@ -3,6 +3,8 @@ name: Order Service
 on:
   push:
     branches: [main]
+    paths:
+      - src/orderService
 
 jobs:
   build:

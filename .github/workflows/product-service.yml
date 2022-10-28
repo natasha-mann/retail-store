@@ -3,6 +3,8 @@ name: Product Service
 on:
   push:
     branches: [main]
+    paths:
+      - src/productService
 
 jobs:
   build:
